@@ -1,19 +1,27 @@
 /**
-编写一个程序把一个单词读入一个字符数组，然后反向打印出这个词。
-*/
-#include  <stdio.h>
-#include  <string.h>
+ * @file ex6.c
+ * @author your name (you@domain.com)
+ * @brief
+ *  Write a program that prints a table with each line giving an integer, its square, and its cube. Ask the user to input the lower and upper limits for the table. Use a  for  loop.
+ * @version 0.1
+ * @date 2022-09-08
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
+#include <stdio.h>
 int main(void)
 {
-	char word[40];
+    int lower, upper;
 
-	printf("Please input single word:");
-	if(scanf("%s",word) < 0)
-		return -1;
-	
-	for( int i = strlen(word)-1 ; i >= 0 ; --i)
-		printf("%c",word[i]);
-	printf("\n");
+    printf("Please input the lower and upper limits for the table:");
+    if (scanf("%d %d", &lower, &upper) < 0)
+        return -1;
 
-	return 0;
+    printf("%s\t%s\t%s\n", "Integer", "Square", "Cube");
+    for (; lower <= upper; ++lower)
+        printf("%7d\t%6d\t%4d\n", lower, lower * lower, lower * lower * lower);
+
+    return 0;
 }

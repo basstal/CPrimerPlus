@@ -17,10 +17,10 @@
 
 int main(void)
 {
-	printf("Stephen Prata\n");
-	printf("Stephen\nPrata\n");
-	printf("Stephen");
-	printf("Prata\n");
+    printf("Stephen Prata\n");
+    printf("Stephen\nPrata\n");
+    printf("Stephen");
+    printf("Prata\n");
 
-	return 0;
+    return 0;
 }

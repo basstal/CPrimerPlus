@@ -12,11 +12,11 @@
 #include <stdio.h>
 int main()
 {
-	int code;
+    int code;
 
-	printf("Please input an ASCII code value [0, 127]:");
-	if (scanf("%d", &code) < 0)
-		return -1;
-	printf("your input in ASCII is %c.\n", code);
-	return 0;
+    printf("Please input an ASCII code value [0, 127]:");
+    if (scanf("%d", &code) < 0)
+        return -1;
+    printf("your input in ASCII is %c.\n", code);
+    return 0;
 }

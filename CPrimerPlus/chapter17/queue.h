@@ -1,36 +1,43 @@
 #ifndef _QUEUE_H_
 #define _QUEUE_H_
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define MAXQUEUE 10
 
-enum{false,true};
+enum
+{
+	false,
+	true
+};
 
-typedef struct {
+typedef struct
+{
 	long arrive;
 	int processtime;
-}Item;
+} Item;
 
-typedef struct node{
+typedef struct node
+{
 	Item item;
 	struct node *next;
-}Node;
+} Node;
 
-typedef struct queue{
+typedef struct queue
+{
 	Node *front;
 	Node *rear;
 	int items;
-}Queue;
+} Queue;
 
-typedef struct{
+typedef struct
+{
 	long served;
 	long line_wait;
 	long sum_line;
 	long wait_time;
-}Barber;
-
+} Barber;
 
 void InitializeQueue(Queue *pq);
 
@@ -39,9 +46,9 @@ int QueueIsEmpty(const Queue *pq);
 
 int QueueItemCount(const Queue *pq);
 
-int EnQueue(Item item,Queue *pq);
+int EnQueue(Item item, Queue *pq);
 
-int DeQueue(Item *pitem,Queue *pq);
+int DeQueue(Item *pitem, Queue *pq);
 
 void EmptyTheQueue(Queue *pq);
 

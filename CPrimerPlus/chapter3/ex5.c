@@ -13,12 +13,12 @@
 
 int main()
 {
-	int age;
+    int age;
 
-	printf("Please input your age in years:");
-	if (scanf("%d", &age) < 0)
-		return -1;
-	printf("Your age equal to %.0lf seconds\n", age * 3.156e7);
+    printf("Please input your age in years:");
+    if (scanf("%d", &age) < 0)
+        return -1;
+    printf("Your age equal to %.0lf seconds\n", age * 3.156e7);
 
-	return 0;
+    return 0;
 }

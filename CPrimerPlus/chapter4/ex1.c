@@ -13,13 +13,13 @@
 
 int main()
 {
-	char first_name[40];
-	char last_name[40];
+    char first_name[40];
+    char last_name[40];
 
-	printf("Please input your first name than your last name (each name less than 40 letters):");
-	if (scanf("%s %s", first_name, last_name) < 0)
-		return -1;
-	printf("Hello! %s %s.\n", last_name, first_name);
+    printf("Please input your first name than your last name (each name less than 40 letters):");
+    if (scanf("%s %s", first_name, last_name) < 0)
+        return -1;
+    printf("Hello! %s %s.\n", last_name, first_name);
 
-	return 0;
+    return 0;
 }

@@ -1,24 +1,26 @@
 /**
-对练习7进行修改，让它使用一个函数来返回计算值。
-*/
-#include	<stdio.h>
+ * @file ex8.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Write a program that requests two floating-point numbers and prints the value of their difference divided by their product. Have the program loop through pairs of input values until the user enters nonnumeric input.
+ * @version 0.1
+ * @date 2022-09-08
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 
-double func(double,double);
-
+#include <stdio.h>
 int main(void)
 {
-	double a,b;
+    double a, b;
 
-	printf("Please input two double:");
-	while( scanf("%lf %lf",&a,&b) == 2)
-	{
-		printf("(%.3g - %.3g) / (%.3g * %.3g) = %.5g\n",a,b,a,b,func(a,b));
-		printf("Enter next pair(q to quit):");
-	}
-	return 0;
-}
+    printf("Please input two floating-point numbers (nonnumeric input to quit):");
 
-double func(double a, double b)
-{
-	return (a - b) / (a * b);
+    while (scanf("%lf %lf", &a, &b) == 2)
+    {
+        printf("(%.3g - %.3g) / (%.3g * %.3g) = %.5g\n", a, b, a, b, (a - b) / (a * b));
+        printf("Enter next pair (q to quit):");
+    }
+    return 0;
 }

@@ -1,20 +1,40 @@
 /**
-编写一个程序，创建一个8个元素的int数组，并且把元素分别设置为2的前8次幂，然后打印出它们的值。使用for循环来设置值；为了变化，使用do while循环来显示这些值。
-*/
-#include	<stdio.h>
+ * @file ex12.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Consider these two infinite series:
+  1.0 + 1.0/2.0 + 1.0/3.0 + 1.0/4.0 + ...
+  1.0 - 1.0/2.0 + 1.0/3.0 - 1.0/4.0 + ...
+   Write a program that evaluates running totals of these two series up to some limit of number of terms. Hint: –1 times itself an odd number of times is –1, and –1 times itself an even number of times is 1. Have the user enter the limit interactively; let a zero or negative value terminate input. Look at the running totals after 100 terms, 1000 terms, 10,000 terms. Does either series appear to be converging to some value?
+ * @version 0.1
+ * @date 2022-09-08
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 
+#include <stdio.h>
 int main(void)
 {
-	int arr[8];
-	arr[0] = 2;
-	for(int i = 1; i < 8; ++i)
-		arr[i] = arr[i-1] * 2;
-	int i = 0;
-	do
+	int times;
+	printf("Please input the times (zero or negative value to quit):");
+	while (scanf("%d", &times) > 0 && times > 0)
 	{
-		printf("%d ",arr[i++]);
-	}while(i < 8);
-	printf("\n");
-	
+		double sqa = 0;
+		double sqb = 0;
+
+		for (int i = 1; i <= times; ++i)
+		{
+			sqa += 1.0 / i;
+			if (i % 2 == 0)
+				sqb -= 1.0 / i;
+			else
+				sqb += 1.0 / i;
+		}
+		printf("squence 1.0 + 1.0/2.0 + 1.0/3.0 + 1.0/4.0 + ... in %d times valued %.2g\n", times, sqa);
+		printf("squence 1.0 - 1.0/2.0 + 1.0/3.0 - 1.0/4.0 + ... in %d times valued %.2g\n", times, sqb);
+		printf("Please input the times (zero or negative value to quit):");
+	}
+
 	return 0;
 }

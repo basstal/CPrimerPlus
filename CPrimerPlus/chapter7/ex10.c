@@ -1,13 +1,21 @@
 /**
-1988年United states Federal Tax Schedule是近期最基本的。它分为4类，每类有两个等级。下面是其摘要：美元数为应征税的收入
-种类				税金
-单身				前17850美元按15%，超出部分按28%
-户主				前23900美元按15%，超出部分按28%
-已婚，共有		前29750美元按15%，超出部分按28%
-已婚，离异		前14875美元按15%，超出部分按28%
-编写一个程序，让用户指定税金种类和应征税收入，然后计算税金。使用循环以便用户可以多次输入。
-*/
-#include	<stdio.h>
+ * @file ex10.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   The 1988 United States Federal Tax Schedule was the simplest in recent times. It had four categories, and each category had two rates. Here is a summary (dollar amounts are taxable income):
+  Category     				Tax
+  Single		 			15% of first $17,850 plus 28% of excess
+   Head of Household 		 15% of first $23,900 plus 28% of excess
+    Married, Joint  		 15% of first $29,750 plus 28% of excess
+    Married, Separate 		15% of first $14,875 plus 28% of excess
+     For example, a single wage earner with a taxable income of $20,000 owes 0.15 × $17,850 + 0.28 × ($20,000−$17,850). Write a program that lets the user specify the tax category and the taxable income and that then calculates the tax. Use a loop so that the user can enter several tax cases.
+ * @version 0.1
+ * @date 2022-09-09
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+#include <stdio.h>
 #define SINGLE 17850
 #define MARRIED 29750
 #define DIVORCED 14875
@@ -15,43 +23,58 @@
 #define NORMAL_RATE 0.15
 #define BEYOND_RATE 0.28
 //根据薪金和税收的范围计算税金
-double taxfunc(int bound,double salary);
+double taxfunc(int bound, double salary);
+
+int menu()
+{
+    int kind;
+    printf("Enter your kind in range [1,4] (other to quit):\n"
+           "1.Single\t\t\t\t15%% of first $17,850 plus 28%% of excess\n"
+           "2.Head of Household\t\t\t15%% of first $23,900 plus 28%% of excess\n"
+           "3.Married, Joint\t\t\t15%% of first $29,750 plus 28%% of excess\n"
+           "4.Married, Separate\t\t\t15%% of first $14,875 plus 28%% of excess\n");
+    if (scanf("%d", &kind) > 0)
+    {
+        return kind;
+    }
+    else
+    {
+        return -1;
+    }
+}
 
 int main(void)
 {
-	int kind;
-
-	printf("Enter your kind(1-4):");
-	while( scanf("%d",&kind) == 1 && kind > 0 && kind < 5)
-	{
-		double salary;
-		printf("Please input your salary:");
-		if(scanf("%lf",&salary) < 0)
-			return -1;
-		switch(kind)
-		{
-		case 1:
-			printf("your tax = %.2f\n",taxfunc(SINGLE,salary));
-			break;
-		case 2:
-			printf("your tax = %.2f\n",taxfunc(HOUSEHOLDER,salary));
-			break;
-		case 3:
-			printf("your tax = %.2f\n",taxfunc(MARRIED,salary));
-			break;
-		case 4:
-			printf("your tax = %.2f\n",taxfunc(DIVORCED,salary));
-			break;
-		}
-		printf("Enter another kind(q to quit):");
-	}
-	return 0;
+    int kind;
+    while ((kind = menu()) && kind > 0 && kind < 5)
+    {
+        double salary;
+        printf("Please input your salary:");
+        if (scanf("%lf", &salary) < 0)
+            return -1;
+        switch (kind)
+        {
+        case 1:
+            printf("your tax is %.2f\n", taxfunc(SINGLE, salary));
+            break;
+        case 2:
+            printf("your tax is %.2f\n", taxfunc(HOUSEHOLDER, salary));
+            break;
+        case 3:
+            printf("your tax is %.2f\n", taxfunc(MARRIED, salary));
+            break;
+        case 4:
+            printf("your tax is %.2f\n", taxfunc(DIVORCED, salary));
+            break;
+        }
+    }
+    return 0;
 }
 
-double taxfunc(int bound,double salary)
+double taxfunc(int bound, double salary)
 {
-	if(salary > bound)
-		return (salary - bound) * BEYOND_RATE + bound * NORMAL_RATE;
-	else
-		return salary * NORMAL_RATE;
+    if (salary > bound)
+        return (salary - bound) * BEYOND_RATE + bound * NORMAL_RATE;
+    else
+        return salary * NORMAL_RATE;
 }

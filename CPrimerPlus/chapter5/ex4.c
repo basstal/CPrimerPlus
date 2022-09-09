@@ -1,25 +1,32 @@
 /**
-exercise 4:
-编写一个程序让用户按厘米输入一个高度值，然后，程序按照厘米和英尺英寸显示这个高度值。允许厘米和英寸的值出现小数部分。出现允许用户继续输入，直到用户输入一个非正的数值。出现运行的示例如下所示：
-Enter a height in centimeters: 182
-182.0 cm = 5 feet, 11.7 inches
-Enter a height in centimeters(<=0 to quit) : 168
-168.0 cm = 5 feet, 6.1 inches
-Enter a height in centimeters(<=0 to quit) : 0
-bye
-*/
-#include  <stdio.h>
+ * @file ex4.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Write a program that asks the user to enter a height in centimeters and then displays the height in centimeters and in feet and inches. Fractional centimeters and inches should be allowed, and the program should allow the user to continue entering heights until a nonpositive value is entered. A sample run should look like this:
+  Enter a height in centimeters:  182
+  182.0 cm = 5 feet, 11.7 inches
+  Enter a height in centimeters (<=0 to quit):  168.7
+  168.0 cm = 5 feet, 6.4 inches
+  Enter a height in centimeters (<=0 to quit):  0
+  bye
+ * @version 0.1
+ * @date 2022-09-08
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+#include <stdio.h>
 
 int main()
 {
-	float height;
+	double height;
 
-	printf("Enter a height in centimeters:");
-	while( scanf("%f",&height) > 0 && height > 0)
+	printf("Enter a height in centimeters (nonpositive value to quit):");
+	while (scanf("%lf", &height) > 0 && height > 0)
 	{
-		int foot = height / 2.54 / 12;
-		printf("%.1f cm = %d feet, %.1f inches\n", height , foot , height / 2.54 - foot * 12 );
-		printf("Enter a height in centimeters(<=0 to quit):");
+		int foot = height / 30.48;
+		printf("%.1f cm = %d feet, %.1f inches\n", height, foot, height / 2.54 - foot * 12);
+		printf("Enter a height in centimeters (nonpositive value to quit):");
 	}
 	printf("bye\n");
 

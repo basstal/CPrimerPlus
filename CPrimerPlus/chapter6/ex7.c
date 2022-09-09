@@ -1,18 +1,28 @@
 /**
-编写一个程序，要求输入两个浮点数，然后打印出用二者的差值除以二者的乘积所得的结果。在用户键入非数字的输入之前程序循环处理每对输入值。
-*/
-#include	<stdio.h>
+ * @file ex7.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Write a program that reads a single word into a character array and then prints the word backward. Hint: Use  strlen()  ( Chapter   4   ) to compute the index of the last character in the array.
+ * @version 0.1
+ * @date 2022-09-08
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
+#include <stdio.h>
+#include <string.h>
 int main(void)
 {
-	double a,b;
+    char word[40];
 
+    printf("Please input single word:");
+    if (scanf("%s", word) < 0)
+        return -1;
 
-	printf("Please input two double:");
+    for (int i = strlen(word) - 1; i >= 0; --i)
+        printf("%c", word[i]);
+    printf("\n");
 
-	while( scanf("%lf %lf",&a,&b) == 2)
-	{
-		printf("(%.3g - %.3g) / (%.3g * %.3g) = %.5g\n",a,b,a,b,(a - b) / (a * b));
-		printf("Enter next pair(q to quit):");
-	}
-	return 0;
+    return 0;
 }

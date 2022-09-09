@@ -14,12 +14,12 @@
 
 int main()
 {
-	float hight;
+    float hight;
 
-	printf("Please input your height in centimeters:");
-	if (scanf("%f", &hight) < 0)
-		return -1;
-	printf("Your height is %.2f centimeters, and %.2f inches.\n", hight, hight / 2.54);
+    printf("Please input your height in centimeters:");
+    if (scanf("%f", &hight) < 0)
+        return -1;
+    printf("Your height is %.2f centimeters, and %.2f inches.\n", hight, hight / 2.54);
 
-	return 0;
+    return 0;
 }

@@ -1,21 +1,29 @@
 /**
-编写一个程序，该程序要求输入一个float型数并打印该数的立方值。使用您自己设计的函数来计算该值的立方并且将它的立方打印出来。main()程序把输入的值传递给该函数。
-*/
-#include	<stdio.h>
-void cube(float );
+ * @file ex7.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Write a program that requests a type  double  number and prints the value of the number cubed. Use a function of your own design to cube the value and print it. The  main() program should pass the entered value to this function.
+ * @version 0.1
+ * @date 2022-09-08
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+#include <stdio.h>
+void cube(float);
 int main(void)
 {
-	float f;
+    float f;
 
-	printf("Please input a float:");
-	if(scanf("%f",&f) < 0)
-		return -1;
-	cube(f);
+    printf("Please input a float:");
+    if (scanf("%f", &f) < 0)
+        return -1;
+    cube(f);
 
-	return 0;
+    return 0;
 }
 
 void cube(float f)
 {
-	printf("The cube of %.2f is %.2f.\n", f, f*f*f);
+    printf("The cube of %.2f is %.2f.\n", f, f * f * f);
 }

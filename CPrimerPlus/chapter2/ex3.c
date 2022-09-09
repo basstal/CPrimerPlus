@@ -13,11 +13,11 @@
 
 int main(void)
 {
-	int ages;
-	printf("How old are you?\n");
-	if (scanf("%d", &ages) < 0)
-		return -1;
-	printf("Your %d age equals to %d days.\n", ages, ages * 365);
+    int ages;
+    printf("How old are you?\n");
+    if (scanf("%d", &ages) < 0)
+        return -1;
+    printf("Your %d age equals to %d days.\n", ages, ages * 365);
 
-	return 0;
+    return 0;
 }

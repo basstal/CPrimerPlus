@@ -17,23 +17,23 @@
 
 void br()
 {
-	printf("Brazil, Russia");
+    printf("Brazil, Russia");
 }
 
 void ic()
 {
-	printf("India, China");
+    printf("India, China");
 }
 
 int main()
 {
-	br();
-	printf(", ");
-	ic();
-	printf("\n");
-	ic();
-	printf(",\n");
-	br();
-	printf("\n");
-	return 0;
+    br();
+    printf(", ");
+    ic();
+    printf("\n");
+    ic();
+    printf(",\n");
+    br();
+    printf("\n");
+    return 0;
 }

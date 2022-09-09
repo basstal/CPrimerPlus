@@ -15,13 +15,13 @@ b.	   The input is  +21.290  or  2.129E+001 .
 
 int main()
 {
-	float a;
+    float a;
 
-	printf("Please input a float number:");
-	if (scanf("%f", &a) < 0)
-		return -1;
-	printf("The input is %.1f or %.1e\n", a, a);
-	printf("The input is %+.3f or %.3E\n", a, a);
+    printf("Please input a float number:");
+    if (scanf("%f", &a) < 0)
+        return -1;
+    printf("The input is %.1f or %.1e\n", a, a);
+    printf("The input is %+.3f or %.3E\n", a, a);
 
-	return 0;
+    return 0;
 }

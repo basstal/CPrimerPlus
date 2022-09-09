@@ -18,16 +18,16 @@ d.	   Prints it in a field three characters wider than the name
 
 int main()
 {
-	char name[40];
+    char name[40];
 
-	printf("Please input your name (less than 40 letters):");
-	if (scanf("%s", name) < 0)
-		return -1;
-	printf("\"%s\"\n", name);	 // Prints it enclosed in double quotation marks
-	printf("\"%20s\"\n", name);	 // Prints it in a field 20 characters wide, with the whole field in quotes and the name at the right end of the field
-	printf("\"%-20s\"\n", name); // Prints it at the left end of a field 20 characters wide, with the whole field enclosed in quotes
-	int len = strlen(name) + 3;
-	printf("%*s\n", len, name); // Prints it in a field three characters wider than the name
+    printf("Please input your name (less than 40 letters):");
+    if (scanf("%s", name) < 0)
+        return -1;
+    printf("\"%s\"\n", name);    // Prints it enclosed in double quotation marks
+    printf("\"%20s\"\n", name);  // Prints it in a field 20 characters wide, with the whole field in quotes and the name at the right end of the field
+    printf("\"%-20s\"\n", name); // Prints it at the left end of a field 20 characters wide, with the whole field enclosed in quotes
+    int len = strlen(name) + 3;
+    printf("%*s\n", len, name); // Prints it in a field three characters wider than the name
 
-	return 0;
+    return 0;
 }
