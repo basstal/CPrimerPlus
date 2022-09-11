@@ -1,38 +1,33 @@
+/**
+ * @file 9.7.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Write a program that reads characters from the standard input to end-of-file. For each character, have the program report whether it is a letter. If it is a letter, also report
+its numerical location in the alphabet. For example,  c  and  C  would both be letter 3. Incorporate a function that takes a character as an argument and returns the numerical location if the character is a letter and that returns  –1  otherwise.
+ * @version 0.1
+ * @date 2022-09-10
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-double power(double, int);
+void character_to_numerical_location(char);
+
 int main(void)
 {
-    double a;
-    int b;
-    printf("Please input a double number and an int:");
-    while ((scanf("%lf %d", &a, &b)) == 2)
-    {
-        a = power(a, b);
-        printf("The new number is %g\n", a);
-        printf("Enter next pair of numbers or q to quit.\n");
-    }
-    printf("Hope you enjoyed this power trip--bye!\n");
+    char c;
+    printf("Please input some characters (EOF to quit):");
+    while ((c = getchar()) != EOF)
+        character_to_numerical_location(c);
     return 0;
 }
-double power(double a, int b)
+void character_to_numerical_location(char c)
 {
-    int i;
-    double d;
-    d = a;
-    if (b == 0)
-        return 1;
-    else if (a == 0)
-        return 0;
-    else if (b > 0)
-    {
-        for (i = 0; i < b - 1; i++)
-            a *= d;
-        return a;
-    }
-    else if (b < 0)
-    {
-        for (i = 0; i > b - 1; i--)
-            a *= (1 / d);
-        return a;
-    }
+    if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
+        if (c < 95)
+            printf("The '%c' numerical location in the alphabet is %d\n", c, c - 'A');
+        else
+            printf("The '%c' numerical location in the alphabet is %d\n", c, c - 'a');
+    else
+        printf("It's not a character.\n");
 }

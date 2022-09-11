@@ -1,26 +1,49 @@
+/**
+ * @file 9.9.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Redo Programming Exercise 8, but this time use a recursive function
+ * @version 0.1
+ * @date 2022-09-10
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include <stdio.h>
-void to_base_n(unsigned long, unsigned int);
+
+double calc_power(double, int);
 int main(void)
 {
-    unsigned long number;
-    unsigned int base;
-    printf("Enter an integer and base number(q to quit):\n");
-    while (scanf("%lu%u", &number, &base) == 2)
+    double base;
+    int power;
+    printf("Please input a double number and an int for the power calculation (q to quit):");
+    while ((scanf("%lf %d", &base, &power)) == 2)
     {
-        printf("%lu's base %u equivalent: ", number, base);
-        to_base_n(number, base);
-        putchar('\n');
-        printf("Enter an integer (q to quit):\n");
+        printf("The result of %lf ^ %d is %g\n", base, power, calc_power(base, power));
+        printf("Enter next pair of numbers (q to quit):");
     }
-    printf("Done.\n");
+    printf("Hope you enjoyed this power trip--bye!\n");
     return 0;
 }
-void to_base_n(unsigned long n, unsigned int base)
+double calc_power(double base, int power)
 {
-    int r;
-    r = n % base;
-    if (n >= base)
-        to_base_n(n / base, base);
-    printf("%d", r);
-    return;
+    if (base == 0)
+    {
+        if (power == 0)
+        {
+            printf("0 to the 0 power is undefined, using a value of 1.\n");
+            return 1;
+        }
+        return 0;
+    }
+    else
+    {
+        if (power > 0)
+            return calc_power(base, power - 1) * base;
+        else if (power == 0)
+            return 1;
+        else
+            return calc_power(base, power + 1) * (1 / base);
+    }
 }

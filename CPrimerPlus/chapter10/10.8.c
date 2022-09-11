@@ -1,36 +1,33 @@
+/**
+ * @file 10.8.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Use a copy function from Programming Exercise 2 to copy the third through fifth
+elements of a seven-element array into a three-element array. The function itself need not be altered; just choose the right actual arguments. (The actual arguments need not be
+an array name and array size. They only have to be the address of an array element and a
+number of elements to be processed.)
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define COLS 5
-void copy(double (*)[COLS], double (*)[COLS], int);
-void display(double (*)[COLS], int);
+void copy_ptr(double *target, double *source, int length)
+{
+    printf("copy_ptr start\n");
+    for (int i = 0; i < length; i++)
+    {
+        *(target + i) = *(source + i);
+        printf("%lf\t", *(target + i));
+    }
+    printf("\n");
+}
+
 int main(void)
 {
-    double source[3][COLS] = {
-        {1.1, 2.2, 3.3, 4.4, 5.5},
-        {6.6, 7.7, 8.8, 9.9, 10.10},
-        {11.11, 12.12, 13.13, 14.14, 15.15}};
-    double target[6][COLS] = {0};
-    copy(source, target, 3);
-    puts("source:");
-    display(source, 3);
-    puts("\ntarget:");
-    display(target, 6);
-    getchar();
+    double source[7] = {1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7};
+    double target[3];
+    copy_ptr(target, source + 2, 3);
     return 0;
-}
-void copy(double (*source)[COLS], double target[][COLS], int rows)
-{
-    int i, j;
-    for (i = 0; i < rows; i++)
-        for (j = 0; j < COLS; j++)
-            target[i][j] = source[i][j];
-}
-void display(double (*p)[COLS], int rows)
-{
-    int i, j;
-    for (i = 0; i < rows; i++)
-    {
-        for (j = 0; j < COLS; j++)
-            printf("%g\t", p[i][j]);
-        printf("\n");
-    }
 }

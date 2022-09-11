@@ -1,4 +1,5 @@
 - [C Primer Plus](#c-primer-plus)
+- [NOTES](#notes)
 
 # C Primer Plus
 
@@ -10,3 +11,7 @@ cd build
 cmake ..
 cmake --build .
 ```
+
+# NOTES
+
+- chapter10 Programming Exercise 14 skipped, because MSVC don't support VLA feature.

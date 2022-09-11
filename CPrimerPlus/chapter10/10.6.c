@@ -1,26 +1,42 @@
+/**
+ * @file 10.6.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a function that reverses the contents of an array of double and test it in a simple program.
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-void copy_arr(double[], double[], int);
-int main(void)
+
+void reverse(double *source, int length)
 {
-    int i, j;
-    double a[3][3] = {
-        {1.0, 5.4, 3.7},
-        {3.5, 7.2, 9.5},
-        {2.2, 3.7, 1.5}};
-    double b[3][3];
-    for (i = 0; i < 3; i++)
-        copy_arr(a[i], b[i], 3);
-    for (j = 0; j < 3; j++)
+    for (int i = 0, j = length - 1; j - i > 0; ++i, --j)
     {
-        for (i = 0; i < 3; i++)
-            printf("b[%d][%d]=%5g%3c", j, i, b[j][i], ' ');
-        printf("\n");
+        double tmp = source[i];
+        source[i] = source[j];
+        source[j] = tmp;
     }
-    return 0;
 }
-void copy_arr(double a[], double b[], int c)
+int main()
 {
-    int i;
-    for (i = 0; i < c; i++)
-        b[i] = a[i];
+    double test[5] = {3.14, 5.68, 9.72, 2.45, 0.26};
+    int length = sizeof(test) / sizeof(double);
+    printf("before reverse");
+    for (int i = 0; i < length; ++i)
+    {
+        printf("%c%lf%c%c", i == 0 ? '{' : ' ', test[i], i == (length - 1) ? ' ' : ',', i == (length - 1) ? '}' : ' ');
+    }
+    printf("\n");
+    reverse(test, length);
+    printf("after reverse");
+    for (int i = 0; i < length; ++i)
+    {
+        printf("%c%lf%c%c", i == 0 ? '{' : ' ', test[i], i == (length - 1) ? ' ' : ',', i == (length - 1) ? '}' : ' ');
+    }
+    printf("\n");
+
+    return 0;
 }

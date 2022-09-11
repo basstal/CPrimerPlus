@@ -1,79 +1,61 @@
+/**
+ * @file 10.12.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Rewrite the rain program in Listing 10.7 so that the main tasks are performed by
+functions instead of in main() .
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define SIZE 5
-void save_dat(double (*ar)[SIZE], int n);
-double ccl_each_set(const double *ar, int n);
-double ccl_all_set(const double (*ar)[SIZE], int n);
-double maxnum(const double (*ar)[SIZE], int n);
-void print(const double (*ar)[SIZE], int n);
+#define MONTHS 12
+#define YEARS 5
+void every_year_rainfall(const float (*)[MONTHS]);
+void average_rainfall_monthly(const float (*)[MONTHS]);
 int main(void)
 {
-    double arr[3][5] = {0};
-    double av1, av2, av3, avall;
-    double max;
-
-    save_dat(arr, 3);
-    av1 = ccl_each_set(arr[0], 5);
-    av2 = ccl_each_set(arr[1], 5);
-    av3 = ccl_each_set(arr[2], 5);
-    avall = ccl_all_set(arr, 3);
-    max = maxnum(arr, 3);
-    print(arr, 3);
-    printf("The max number is %g\n", max);
-    printf("%10s%10s%10s%15s\n", "average1", "average2", "average3", "averageall");
-    printf("%10g%10g%10g%15g\n", av1, av2, av3, avall);
-
+    const float rain[YEARS][MONTHS] = {
+        {4.3f, 4.3f, 4.3f, 3.0f, 2.0f, 1.2f, 0.2f, 0.2f, 0.4f, 2.4f, 3.5f, 6.6f},
+        {8.5f, 8.2f, 1.2f, 1.6f, 2.4f, 0.0f, 5.2f, 0.9f, 0.3f, 0.9f, 1.4f, 7.3f},
+        {9.1f, 8.5f, 6.7f, 4.3f, 2.1f, 0.8f, 0.2f, 0.2f, 1.1f, 2.3f, 6.1f, 8.4f},
+        {7.2f, 9.9f, 8.4f, 3.3f, 1.2f, 0.8f, 0.4f, 0.0f, 0.6f, 1.7f, 4.3f, 6.2f},
+        {7.6f, 5.6f, 3.8f, 2.8f, 3.8f, 0.2f, 0.0f, 0.0f, 0.0f, 1.3f, 2.6f, 5.2f}};
+    every_year_rainfall(rain);
+    average_rainfall_monthly(rain);
     return 0;
 }
 
-void save_dat(double (*ar)[SIZE], int n)
+void every_year_rainfall(const float (*source)[MONTHS])
 {
-    int i, j;
-    printf("Enter %d double number into %d number-sets:\n", SIZE, n);
-    for (i = 0; i < n; i++)
+    printf("YEAR   RAINFALL(inches)\n");
+    int year, month;
+    float total, subtot;
+
+    for (year = 0, total = 0; year < YEARS; year++)
     {
-        printf("Please enter number-set #%d:\n", i + 1);
-        for (j = 0; j < SIZE; j++)
-        {
-            printf("value #%d:", j + 1);
-            scanf("%lf", &ar[i][j]);
-        }
+        for (month = 0, subtot = 0; month < MONTHS; month++)
+            subtot += source[year][month];
+        printf("%5d %15.1f\n", 2000 + year, subtot);
+        total += subtot;
     }
-}
-double ccl_each_set(const double *ar, int n)
-{
-    int i;
-    double total = 0;
-    for (i = 0; i < n; ar++, i++)
-        total += *ar;
-    return (total / n);
-}
-double ccl_all_set(const double (*ar)[SIZE], int n)
-{
-    int i;
-    double total = 0;
-    for (i = 0; i < n; i++)
-        total += ccl_each_set(ar[i], 5);
-    return (total / n);
-}
-double maxnum(const double (*ar)[SIZE], int n)
-{
-    int i, j;
-    double max;
-
-    for (i = 0; i < n; i++)
-        for (j = 0; j < SIZE; j++)
-            max = max > ar[i][j] ? max : ar[i][j];
-    return (max);
+    printf("\nThe yearly average is %.1f inches.\n\n", total / YEARS);
 }
 
-void print(const double (*ar)[SIZE], int n)
+void average_rainfall_monthly(const float (*source)[MONTHS])
 {
-    int i, j;
+    printf("MONTHLY  AVERAGES:\n\n");
+    printf("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec\n");
+    int year, month;
+    float subtot;
 
-    for (i = 0; i < n; i++)
+    for (month = 0; month < MONTHS; month++)
     {
-        for (j = 0; j < SIZE; j++)
-            printf("ar[%d][%d]=%3g%3c", i, j, ar[i][j], ' ');
-        printf("\n");
+        for (year = 0, subtot = 0; year < YEARS; year++)
+            subtot += source[year][month];
+        printf("%4.1f", subtot / YEARS);
     }
+    printf("\n");
 }

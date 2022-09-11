@@ -1,53 +1,54 @@
+/**
+ * @file 10.11.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that declares a 3×5 array of int and initializes it to some values of
+your choice. Have the program print the values, double all the values, and then display
+the new values. Write a function to do the displaying and a second function to do the
+doubling. Have the functions take the array name and the number of rows as arguments.
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define MONTHS 12
-#define YEARS 5
-float calculate1(const float (*ar)[MONTHS], int n);
-void calculate2(const float (*ar)[MONTHS], int n);
+#define COLS 5
+void show(double (*)[COLS], int);
+void doubling(double (*)[COLS], int);
 int main(void)
 {
-    const float rain[YEARS][MONTHS] = {
-        {4.3, 4.3, 4.3, 3.0, 2.0, 1.2, 0.2, 0.2, 0.4, 2.4, 3.5, 6.6},
-        {8.5, 8.2, 1.2, 1.6, 2.4, 0.0, 5.2, 0.9, 0.3, 0.9, 1.4, 7.3},
-        {9.1, 8.5, 6.7, 4.3, 2.1, 0.8, 0.2, 0.2, 1.1, 2.3, 6.1, 8.4},
-        {7.2, 9.9, 8.4, 3.3, 1.2, 0.8, 0.4, 0.0, 0.6, 1.7, 4.3, 6.2},
-        {7.6, 5.6, 3.8, 2.8, 3.8, 0.2, 0.0, 0.0, 0.0, 1.3, 2.6, 5.2}};
-    float total;
-
-    printf("YEAR   RAINFALL(inches)\n");
-    total = calculate1(rain, YEARS);
-    printf("\nThe yearly average is %.1f inches.\n\n", total / YEARS);
-    printf("MONTHLY  AVERAGES:\n\n");
-    printf("Jan Feb Mar Apr May Jun Jul Aug Sep Oct ");
-    printf("Nov Dec\n");
-    calculate2(rain, YEARS);
-    printf("\n");
+    double source[3][COLS] = {
+        {1.1, 1.2, 1.3, 1.4, 1.5},
+        {2.2, 2.3, 2.4, 2.5, 2.6},
+        {3.3, 3.4, 3.5, 3.6, 3.7}};
+    doubling(source, 3);
+    show(source, 3);
     return 0;
 }
-
-float calculate1(const float (*ar)[MONTHS], int n)
+void show(double (*source)[COLS], int length)
 {
-    int year, month;
-    float total, subtot;
+    int i, j;
 
-    for (year = 0, total = 0; year < YEARS; year++)
+    printf("The doubling result are :\n{\n");
+    for (i = 0; i < length; i++)
     {
-        for (month = 0, subtot = 0; month < MONTHS; month++)
-            subtot += ar[year][month];
-        printf("%5d %15.1f\n", 2000 + year, subtot);
-        total += subtot;
+        printf("{");
+        for (j = 0; j < COLS; j++)
+        {
+            printf("%3g%c ", source[i][j], j == COLS - 1 ? ' ' : ',');
+        }
+        printf("}\n");
     }
-    return total;
+    printf("}\n");
+    return;
 }
-
-void calculate2(const float (*ar)[MONTHS], int n)
+void doubling(double (*source)[COLS], int length)
 {
-    int year, month;
-    float subtot;
+    int i, j;
 
-    for (month = 0; month < MONTHS; month++)
-    {
-        for (year = 0, subtot = 0; year < YEARS; year++)
-            subtot += ar[year][month];
-        printf("%4.1f", subtot / YEARS);
-    }
+    for (i = 0; i < length; i++)
+        for (j = 0; j < COLS; j++)
+            source[i][j] *= 2;
+    return;
 }

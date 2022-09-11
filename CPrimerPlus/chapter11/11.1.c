@@ -1,37 +1,41 @@
+/**
+ * @file 11.1.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Design and test a function that fetches the next n characters from input (including
+blanks, tabs, and newlines), storing the results in an array whose address is passed as an
+argument.
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define LEN 10
-char *readch(char *, int);
+#define LIMIT 10
+void readn_noblank(char *, int);
 
 int main(void)
 {
-	char input[LEN];
-	char *chk;
-
-	chk = readch(input, LEN - 1);
-	if (chk == NULL)
-		puts("Input failed.");
-	else
-		puts(input);
-	puts("done.\n");
-
-	return 0;
+    char storage[LIMIT];
+    readn_noblank(storage, LIMIT - 1);
+    printf("Your %d characters from input are \"%s\"\n", LIMIT - 1, storage);
+    printf("Done.\n");
+    return 0;
 }
 
-char *readch(char *str, int n)
+void readn_noblank(char *str, int n)
 {
-	int i;
-
-	for (i = 0; i < n; i++)
-	{
-		str[i] = getchar();
-		if (str[i] == EOF)
-			break;
-	}
-	if (i == 0)
-		return NULL;
-	else
-	{
-		str[i] = '\0';
-		return str;
-	}
+    printf("The program will fetches the next %d characters from input:\n", n);
+    int i = 0;
+    char ch;
+    while ((ch = getchar()) != EOF)
+    {
+        str[i++] = ch;
+        if (i == n)
+        {
+            break;
+        }
+    }
+    str[i] = '\0';
 }

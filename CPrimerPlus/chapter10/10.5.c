@@ -1,22 +1,35 @@
+/**
+ * @file 10.5.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a function that returns the difference between the largest and smallest elements of
+an array-of- double . Test the function in a simple program.
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-double hanshu(double *, int);
+double find_largest_to_smallest_diff(double *, int);
+
 int main(void)
 {
-    double a[5] = {1.1, 2.2, 3.3, 4.4, 5.5};
-    printf("max-min=%g\n", hanshu(a, 5));
+    double source[5] = {1.1, 2.2, 3.3, 4.4, 5.5};
+    printf("difference between the largest and smallest elements of {1.1, 2.2, 3.3, 4.4, 5.5} is %lf\n", find_largest_to_smallest_diff(source, sizeof(source) / sizeof(double)));
     return 0;
 }
-double hanshu(double *a, int n)
+
+double find_largest_to_smallest_diff(double *source, int length)
 {
-    int i;
     double max, min;
-    max = min = *a;
-    for (i = 0; i < n; a++, i++)
+    max = min = *source;
+    for (int i = 0; i < length; source++, i++)
     {
-        if (*a > max)
-            max = *a;
-        else if (*a < min)
-            min = *a;
+        if (*source > max)
+            max = *source;
+        else if (*source < min)
+            min = *source;
     }
-    return (max - min);
+    return max - min;
 }

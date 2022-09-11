@@ -1,6 +1,18 @@
+/**
+ * @file 10.1.c
+ * @author your name (you@domain.com)
+ * @brief
+ *   Modify the rain program in  Listing   10.7    so that it does the calculations using pointers instead of subscripts. (You still have to declare and initialize the array.)
+ * @version 0.1
+ * @date 2022-09-10
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #define MONTHS 12
 #define YEARS 5
+
 int main(void)
 {
     const float rain[YEARS][MONTHS] = {
@@ -11,29 +23,29 @@ int main(void)
         {7.6, 5.6, 3.8, 2.8, 3.8, 0.2, 0.0, 0.0, 0.0, 1.3, 2.6, 5.2}};
     int year, month;
     float subtot, total;
-    float *a;
+    float *current_value;
 
-    a = &rain[0][0];
+    current_value = &rain[0][0];
     printf("YEAR   RAINFALL(inches)\n");
     for (year = 0, total = 0; year < YEARS; year++)
     {
         for (month = 0, subtot = 0; month < MONTHS; month++)
-            subtot += *(a + month);
+            subtot += *(current_value + month);
         printf("%5d %15.1f\n", 2000 + year, subtot);
-        a = &rain[year + 1][0];
+        current_value = &rain[year + 1][0];
         total += subtot;
     }
     printf("\nThe yearly average is %.1f inches.\n\n", total / YEARS);
     printf("MONTHLY  AVERAGES:\n\n");
     printf("Jan Feb Mar Apr May Jun Jul Aug Sep Oct ");
     printf("Nov Dec\n");
-    a = &rain[0][0];
+    current_value = &rain[0][0];
     for (month = 0; month < MONTHS; month++)
     {
         for (year = 0, subtot = 0; year < YEARS; year++)
-            subtot += *(a + 12 * year);
+            subtot += *(current_value + 12 * year);
         printf("%4.1f", subtot / YEARS);
-        a = &rain[0][month + 1];
+        current_value = &rain[0][month + 1];
     }
     printf("\n");
     return 0;

@@ -1,35 +1,42 @@
+/**
+ * @file 10.10.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a function that sets each element in an array to the sum of the corresponding
+elements in two other arrays. That is, if array 1 has the values 2 , 4 , 5 , and 8 and array 2
+has the values 1 , 0 , 4 , and 6 , the function assigns array 3 the values 3 , 4 , 9 , and 14 . The
+function should take three array names and an array size as arguments. Test the function
+in a simple program.
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define SIZE 5
-void show(double (*ar)[SIZE], int n);
-void doubled(double (*ar)[SIZE], int n);
+void array_add(double *, double *, double *, int);
+void show(double *, int);
 int main(void)
 {
-    double ar[3][SIZE] = {
-        {1.1, 1.2, 1.3, 1.4, 1.5},
-        {2.2, 2.3, 2.4, 2.5, 2.6},
-        {3.3, 3.4, 3.5, 3.6, 3.7}};
-    doubled(ar, 3);
-    show(ar, 3);
+    double operand0[] = {2, 4, 5, 8};
+    double operand1[] = {1, 0, 4, 6};
+    double result[4];
+    array_add(operand0, operand1, result, sizeof(result) / sizeof(double));
+    show(result, 4);
     return 0;
 }
-void show(double (*ar)[SIZE], int n)
-{
-    int i, j;
 
-    for (i = 0; i < n; i++)
-        for (j = 0; j < SIZE; j++)
-        {
-            printf("ar[%d][%d]=%3g%3c", i, j, ar[i][j], ' ');
-            printf("\n");
-        }
+void show(double *arr, int length)
+{
+    printf("The result array : {");
+    for (int i = 0; i < length; i++)
+        printf("%g%c", *(arr + i), i == length - 1 ? ' ' : ',');
+    printf("}\n");
     return;
 }
-void doubled(double (*ar)[SIZE], int n)
-{
-    int i, j;
 
-    for (i = 0; i < n; i++)
-        for (j = 0; j < SIZE; j++)
-            ar[i][j] *= 2;
-    return;
+void array_add(double *operand0, double *operand1, double *result, int length)
+{
+    for (int i = 0; i < length; i++, operand0++, operand1++, result++)
+        *result = *operand0 + *operand1;
 }

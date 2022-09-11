@@ -1,32 +1,54 @@
+/**
+ * @file 11.5.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Design and test a function that searches the string specified by the first function
+parameter for the first occurrence of a character specified by the second function
+parameter. Have the function return a pointer to the character if successful, and a null
+if the character is not found in the string. (This duplicates the way that the library
+strchr() function works.) Test the function in a complete program that uses a loop to
+provide input values for feeding to the function.
+ * @version 0.1
+ * @date 2022-09-11
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define SIZE 41
-int is_within(char, char *);
+#define LIMIT 41
+
+char *search_occurrence(char *, char);
+
 int main(void)
 {
+    char str[LIMIT] = {'\0'};
 
-    char ch;
-    char str[SIZE] = {'\0'};
-    int i;
-
-    printf("Enter a string:\n");
+    printf("Please enter a string:\n");
     while (gets(str) && str[0] != '\0')
     {
+        char find_char;
         printf("Enter the char you want to search:");
-        scanf("%c", &ch);
+        scanf("%c", &find_char);
         while (getchar() != '\n')
             ;
-        i = is_within(ch, str);
-        if (i == 0)
-            printf("Sorry,we didn't found %c in string.\n", ch);
+        char *occurrence = search_occurrence(str, find_char);
+        if (occurrence == NULL)
+            printf("Sorry,we didn't found %c in string.\n", find_char);
         else
-            printf("See!We found %c in string.\n", ch);
-        printf("Enter a string:\n");
+            printf("See!We found %c in string.\n", *occurrence);
+        printf("Please enter another string (empty input to quit):\n");
     }
+    printf("bye!");
     return 0;
 }
-int is_within(char ch, char *pc)
+
+char *search_occurrence(char *source, char find_char)
 {
-    while (*pc != ch && *pc != '\0')
-        pc++;
-    return *pc;
+    while (*source != find_char && *source != '\0')
+        source++;
+    if (*source == '\0')
+    {
+        return NULL;
+    }
+    return source;
 }

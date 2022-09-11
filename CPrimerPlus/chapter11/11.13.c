@@ -1,20 +1,14 @@
+
+
 #include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-
-int main(int argc, void *argv[])
+int main(int argc, char *argv[])
 {
-    double num;
-    int exp;
+    int i;
 
-    if (argc != 3)
-        printf("Usage:%s number exponent\n", argv[0]);
-    else
-    {
-        num = atof(argv[1]);
-        exp = atoi(argv[2]);
-        printf("%g to the %d power = %g\n", num, exp, pow(num, exp));
-    }
-
+    i = argc;
+    printf("命令行参数有%d个.\n", argc);
+    printf("以下用相反顺序输出命令行参数:\n");
+    for (; i > 0; i--)
+        printf("%s ", argv[i]);
     return 0;
 }
