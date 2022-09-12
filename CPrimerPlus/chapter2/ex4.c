@@ -16,7 +16,6 @@
  */
 #include <stdio.h>
 
-// declare
 void print1();
 void print2();
 

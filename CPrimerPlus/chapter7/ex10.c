@@ -22,7 +22,7 @@
 #define HOUSEHOLDER 23900
 #define NORMAL_RATE 0.15
 #define BEYOND_RATE 0.28
-//根据薪金和税收的范围计算税金
+
 double taxfunc(int bound, double salary);
 
 int menu()

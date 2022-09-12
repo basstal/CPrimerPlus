@@ -29,16 +29,12 @@ int main(void)
     }
     for (char bg = 'A'; bg <= c; ++bg)
     {
-        //输出前置空格
         if (bg != c)
             printf("%*c", (int)c - bg, ' ');
-        //输出最左边开始到中央的字符
         for (char i = 'A'; i <= bg; ++i)
             printf("%c", i);
-        //输出从中央右边开始到最右边的字符
         for (char i = bg - 1; i >= 'A'; --i)
             printf("%c", i);
-        //输出换行符
         printf("\n");
     }
 
