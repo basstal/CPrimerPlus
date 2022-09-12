@@ -1,52 +1,45 @@
-
+/**
+ * @file 11.15.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Use the character classification functions to prepare an implementation of atoi() ; have
+this version return the value of 0 if the input string is not a pure number.
+ * @version 0.1
+ * @date 2022-09-12
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-long atoi_cp(char *pc);
-long num_pow(int pow);
+
+int myatoi(char *);
+
 int main(void)
 {
-    long num;
-    char ch_num[256];
+    char *test = "01234";
+    char *test1 = "012ab";
+    char *test2 = "  234";
+    printf("myatoi(\"01234\") result to %d, atoi(\"01234\") result to %d\n", myatoi(test), atoi(test));
+    printf("myatoi(\"012ab\") result to %d, atoi(\"012ab\") result to %d\n", myatoi(test1), atoi(test1));
+    printf("myatoi(\"  234\") result to %d, atoi(\"  234\") result to %d\n", myatoi(test2), atoi(test2));
 
-    printf("输入一行带数字的字符串:\n");
-    gets(ch_num);
-    num = atoi_cp(ch_num);
-    printf("该数字为%ld.\n", num);
     return 0;
 }
 
-long atoi_cp(char *pc)
+int myatoi(char *str)
 {
-    int i = 0, num;
-    long total = 0;
-    int number[40];
-
-    while (isspace(*pc))
-        pc++;
-    while (isdigit(*pc))
+    int result = 0;
+    while (isspace(*str))
+        ++str;
+    while (isdigit(*str))
     {
-        number[i] = *pc - 48;
-        pc++;
-        i++;
+        result *= 10;
+        result += (*str - '0');
+        ++str;
     }
-    number[i] = '\0';
-    num = i;
-    // printf("%d",num);
-    // for(i=0;i<num;i++)
-    // printf("%d",number[i]);
-    for (i = 0; i < num; i++)
-        total += num_pow(num - 1 - i) * number[i];
-    total += number[i];
-    return total;
-}
-long num_pow(int pow)
-{
-    int i;
-    long num = 1;
-    for (i = 0; i < pow; i++)
-        num *= 10;
-    return num;
+    return result;
 }

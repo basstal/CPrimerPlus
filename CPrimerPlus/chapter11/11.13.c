@@ -1,14 +1,22 @@
-
+/**
+ * @file 11.13.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that echoes the command-line arguments in reverse word order. That
+is, if the command-line arguments are see you later , the program should print later
+you see .
+ * @version 0.1
+ * @date 2022-09-12
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 
 #include <stdio.h>
 int main(int argc, char *argv[])
 {
-    int i;
-
-    i = argc;
-    printf("命令行参数有%d个.\n", argc);
-    printf("以下用相反顺序输出命令行参数:\n");
-    for (; i > 0; i--)
+    printf("Echoes the command-line arguments in reverse word order:\n");
+    for (int i = argc - 1; i > 0; i--)
         printf("%s ", argv[i]);
     return 0;
 }

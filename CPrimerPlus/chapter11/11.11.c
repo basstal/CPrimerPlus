@@ -18,27 +18,32 @@ Have the menu recycle until the user enters the quit request. The program, of co
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #define LIMIT 100
-
-// void print_ASC(char (*parr)[LIMIT], int line);
-// void print_long(char (*parr)[LIMIT], int line);
-// void print_strl(char (*parr)[LIMIT], int line);
-// int strl(char *parr);
-// void exchange(char (*parr)[LIMIT], int n1, int n2);
-// int hlong(char *parr);
-// void copy(char (*target)[LIMIT], char (*source)[LIMIT], int line);
 
 int menu();
 void print_original_list(char (*)[LIMIT], int length);
 void print_ascii_collating_sequence(char (*)[LIMIT], int length);
 void print_order_of_increasing_length(char (*)[LIMIT], int length);
+void print_order_of_the_length_of_the_first_word(char (*)[LIMIT], int);
+int get_first_word_length(char *source)
+{
+    char *from = source;
+    while (isspace(*from))
+        ++from;
+    source = from;
+    while (isalpha(*source))
+        source++;
+    return source - from;
+}
 
 int main()
 {
     char source[10][LIMIT];
     int i = 0;
+    printf("Please input 10 strings:\n");
     while (i < 10 && gets(source[i++]))
-        ;
+        printf("Read input string as No.%d\n", i);
     if (i < 10)
     {
         printf("Not enough input!");
@@ -59,6 +64,8 @@ int main()
             print_order_of_increasing_length(source, 10);
             break;
         case 4:
+            print_order_of_the_length_of_the_first_word(source, 10);
+            break;
         }
     }
     return 0;
@@ -73,9 +80,13 @@ int menu()
            "4. print the strings in order of the length of the first word in the string\n"
            "5. quit.\n");
     int selection;
-    while (scanf("%d", &selection) != 1 || selection < 1 || selection > 5)
+    while (scanf("%d", &selection) != 1)
     {
-        gets();
+        printf("Input is not a number, please input agian\n");
+    }
+    if (selection < 1 || selection > 5)
+    {
+        return menu();
     }
     return selection;
 }
@@ -90,7 +101,7 @@ void print_ascii_collating_sequence(char (*source)[LIMIT], int length)
 {
     for (int i = 0; i < length; i++)
     {
-        for (char *ch = source[i]; ch != '\0'; ++ch)
+        for (char *ch = source[i]; *ch != '\0'; ++ch)
         {
             printf("%c(%d)", *ch, *ch);
         }
@@ -100,57 +111,60 @@ void print_ascii_collating_sequence(char (*source)[LIMIT], int length)
 
 void print_order_of_increasing_length(char (*source)[LIMIT], int length)
 {
-
-    // for (i = 0; i < line - 1; i++)
-    //     for (j = i + 1; j < line; j++)
-    //         if (hlong(parr[i]) > hlong(parr[j]))
-    //             exchange(parr, i, j);
-    // print(parr, line);
+    if (length > 10)
+    {
+        printf("print_order_of_increasing_length length should be less than 10\n");
+        return;
+    }
+    char *ordered[10] = {NULL};
+    int current_ordered_size = 0;
+    for (int i = 0; i < length; ++i)
+    {
+        ordered[current_ordered_size++] = source[i];
+        int length_of_str = strlen(source[i]);
+        for (int j = current_ordered_size - 1; j >= 0; --j)
+        {
+            if (length_of_str < strlen(ordered[j]))
+            {
+                char *tmp = ordered[j];
+                ordered[j] = ordered[j + 1];
+                ordered[j + 1] = tmp;
+            }
+        }
+    }
+    for (int i = 0; i < current_ordered_size; ++i)
+    {
+        printf("%s\n", ordered[i]);
+    }
+    printf("\n");
 }
-// void print_strl(char (*parr)[LIMIT], int line)
-// {
-//     int i, j;
 
-//     for (i = 0; i < line - 1; i++)
-//         for (j = i + 1; j < line; j++)
-//             if (strl(parr[i]) > strl(parr[j]))
-//                 exchange(parr, i, j);
-//     print(parr, line);
-// }
-
-// int strl(char *parr)
-// {
-//     int i = 0;
-//     while (*parr++ != ' ')
-//         i++;
-
-//     return i;
-// }
-// void exchange(char (*parr)[LIMIT], int n1, int n2)
-// {
-//     char temp[LIMIT];
-//     int i;
-
-//     for (i = 0; i < LIMIT; i++)
-//     {
-//         temp[i] = parr[n1][i];
-//         parr[n1][i] = parr[n2][i];
-//         parr[n2][i] = temp[i];
-//     }
-// }
-// int hlong(char *parr)
-// {
-//     int i = 0;
-
-//     while (*parr++)
-//         i++;
-//     return i;
-// }
-// void copy(char (*target)[LIMIT], char (*source)[LIMIT], int line)
-// {
-//     int i, j;
-
-//     for (i = 0; i < line; i++)
-//         for (j = 0; j < LIMIT; j++)
-//             target[i][j] = source[i][j];
-// }
+void print_order_of_the_length_of_the_first_word(char (*source)[LIMIT], int length)
+{
+    if (length > 10)
+    {
+        printf("print_order_of_the_length_of_the_first_word length should be less than 10\n");
+        return;
+    }
+    char *ordered[10] = {NULL};
+    int current_ordered_size = 0;
+    for (int i = 0; i < length; ++i)
+    {
+        ordered[current_ordered_size++] = source[i];
+        int length_of_str = get_first_word_length(source[i]);
+        for (int j = current_ordered_size - 1; j >= 0; --j)
+        {
+            if (length_of_str < get_first_word_length(ordered[j]))
+            {
+                char *tmp = ordered[j];
+                ordered[j] = ordered[j + 1];
+                ordered[j + 1] = tmp;
+            }
+        }
+    }
+    for (int i = 0; i < current_ordered_size; ++i)
+    {
+        printf("%s\n", ordered[i]);
+    }
+    printf("\n");
+}

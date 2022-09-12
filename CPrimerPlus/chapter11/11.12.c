@@ -1,37 +1,49 @@
-
+/**
+ * @file 11.12.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that reads input up to EOF and reports the number of words, the
+number of uppercase letters, the number of lowercase letters, the number of punctuation
+characters, and the number of digits. Use the ctype.h family of functions.
+ * @version 0.1
+ * @date 2022-09-12
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #include <ctype.h>
 #include <stdbool.h>
 int main(void)
 {
     char c;
-    int low_ct = 0;
-    int up_ct = 0;
-    int dig_ct = 0;
-    int n_words = 0;
-    int punc_ct = 0;
-    bool inword = false;
-    printf("Enter text to be analyzed (EOF to terminate):\n");
+    int lowercase_letters = 0;
+    int uppercase_letters = 0;
+    int digits = 0;
+    int words = 0;
+    int punctuation = 0;
+    bool is_in_word = false;
+    printf("Please enter text to be analyzed (EOF to terminate):\n");
     while ((c = getchar()) != EOF)
     {
         if (islower(c))
-            low_ct++;
+            lowercase_letters++;
         else if (isupper(c))
-            up_ct++;
+            uppercase_letters++;
         else if (isdigit(c))
-            dig_ct++;
+            digits++;
         else if (ispunct(c))
-            punc_ct++;
-        if (!isspace(c) && !inword)
+            punctuation++;
+        if (!isspace(c) && !is_in_word)
         {
-            inword = true;
-            n_words++;
+            is_in_word = true;
+            words++;
         }
-        if (isspace(c) && inword)
-            inword = false;
+        if (isspace(c) && is_in_word)
+            is_in_word = false;
     }
-    printf("\nwords=%d,lowercase=%d,uppercase=%d,"
-           "digits=%d,punctuation=%d\n",
-           n_words, low_ct, up_ct, dig_ct, punc_ct);
+    printf("\nwords = %d, lowercase = %d, uppercase = %d,"
+           "digits = %d, punctuation = %d\n",
+           words, lowercase_letters, uppercase_letters, digits, punctuation);
     return 0;
 }
