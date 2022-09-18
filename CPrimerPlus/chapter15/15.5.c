@@ -1,46 +1,44 @@
+/**
+ * @file 15.5.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a function that rotates the bits of an unsigned int by a specified number of bits
+to the left. For instance, rotate_l(x,4) would move the bits in x four places to the left,
+and the bits lost from the left end would reappear at the right end. That is, the bit moved
+out of the high-order position is placed in the low-order position. Test the function in a
+program.
+ * @version 0.1
+ * @date 2022-09-18
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define HEAD 0x80000000
-#define MASK 1
+#include <limits.h>
 
-unsigned int rotate(unsigned int num, int move);
+unsigned int rotate(unsigned int num, unsigned int move);
 
 int main(void)
 {
-	unsigned int num;
-	int pos;
+    unsigned int num, move;
 
-	printf("int的大小为:%d\n常量HEAD的大小为%u\n", sizeof(int), HEAD);
-	printf("输入测试数值:");
-	scanf("%u", &num);
-	printf("输入向左旋转的数量:");
-	scanf("%d", &pos);
-	num = rotate(num, pos);
-	printf("旋转后数值为:%u\n", num);
+    printf("Please input the unsigned int to be rotate : ");
+    scanf("%u", &num);
+    printf("Please input the rotate value : ");
+    scanf("%u", &move);
+    printf("The result of rotate(%u, %u) is %u\n", num, move, rotate(num, move));
 
-	return 0;
+    return 0;
 }
 
-unsigned int rotate(unsigned int num, int move)
+unsigned int rotate(unsigned int num, unsigned int move)
 {
-	int pos;
-	int i = 0;
-
-	while (i++ < move)
-	{
-		pos = num & HEAD;
-		// printf("%u",pos);
-		num <<= 1;
-		if (pos == HEAD)
-		{
-			num |= MASK;
-			// printf("test1");
-		}
-		else
-		{
-			num &= ~MASK;
-			// printf("test2");
-		}
-	}
-
-	return num;
+    if (move > 0)
+    {
+        unsigned int low = (num & ~(UINT_MAX >> 1)) != 0 ? 1 : 0;
+        num <<= 1;
+        num |= low;
+        return rotate(num, move - 1);
+    }
+    return num;
 }

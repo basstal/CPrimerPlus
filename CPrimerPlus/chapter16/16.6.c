@@ -1,4 +1,18 @@
-#include "normal.h"
+/**
+ * @file 16.6.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Modify Listing 16.17 so that it uses an array of struct names elements (as defined after
+the listing) instead of an array of double . Use fewer elements, and initialize the array
+explicitly to a suitable selection of names.
+ * @version 0.1
+ * @date 2022-09-18
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+#include "Common.h"
+
 #define NUM 5
 #define CNUM 40
 
@@ -30,8 +44,8 @@ void fillarray(struct names ar[], int n)
 
     for (index = 0; index < n; index++)
     {
-        printf("请输入#%d姓名，用逗号隔开:\n", index + 1);
-        scanf("%s%s", ar[index].last, ar[index].first);
+        printf("Please enter the #%d name, seperate last name and first name with space :", index + 1);
+        scanf("%s %s", ar[index].last, ar[index].first);
     }
 }
 

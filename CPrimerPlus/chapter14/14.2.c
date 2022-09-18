@@ -1,53 +1,51 @@
+/**
+ * @file 14.2.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that prompts the user to enter the day, month, and year. The month
+can be a month number, a month name, or a month abbreviation. The program then
+should return the total number of days in the year up through the given day. (Do take
+leap years into account.)
+ * @version 0.1
+ * @date 2022-09-17
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #include <string.h>
-struct Month
-{
-    char monthname[20];
-    char monthshort[4];
-    int days;
-    char monthnum[3];
-};
-struct Month months[12] = {
-    {"january", "jan", 31, "1"},
-    {"february", "feb", 28, "2"},
-    {"march", "mar", 31, "3"},
-    {"april", "apr", 30, "4"},
-    {"may", "may", 31, "5"},
-    {"june", "jun", 30, "6"},
-    {"july", "jul", 31, "7"},
-    {"august", "aug", 31, "8"},
-    {"september", "sep", 30, "9"},
-    {"october", "oct", 31, "10"},
-    {"november", "nov", 30, "11"},
-    {"december", "dec", 31, "12"}};
+#include <stdlib.h>
+#include "MonthDef.h"
 
 int main(void)
 {
-    int day, month, year;
-    char inmonth[40];
-    int i, total;
-    total = 0;
-    i = 0;
+    int day, year;
+    char month[40];
 
-    printf("请输入日(整数形式):");
+    printf("Please enter the day :");
     scanf("%d", &day);
-    printf("请输入月(月份号、月份名或月份名缩写形式):\n");
-    scanf("%s", inmonth);
-    printf("请输入年(整数形式):");
+    while (getchar() != '\n')
+        ;
+    printf("Please enter the month (number or month name or month abbreviation) : ");
+    gets(month);
+    printf("Please enter the year :");
     scanf("%d", &year);
 
-    while (strcmp(months[i].monthname, inmonth) != 0 &&
-           strcmp(months[i].monthshort, inmonth) != 0 &&
-           strcmp(months[i].monthnum, inmonth) != 0 &&
-           i++ < 12)
+    int target_month = 0;
+
+    while (strcmp(monthTemplates[target_month].spell, month) != 0 &&
+           strcmp(monthTemplates[target_month].abbreviation, month) != 0 &&
+           monthTemplates[target_month].digit != atoi(month) &&
+           target_month++ < 12)
         ;
-    if (i != 12)
-        month = i + 1;
-    for (i = 0; i < month - 1; i++)
-        total += months[i].days;
-    if (year % 4 == 0 && month > 2)
-        total += 1;
-    total += day;
-    printf("一年中到该天总共有%d天.\n", total);
+    if (target_month >= 12)
+    {
+        printf("The month of %s not found.", month);
+        exit(EXIT_FAILURE);
+    }
+    int result = year % 4 == 0 && target_month > 1 ? day + 1 : day;
+    for (int j = 0; j < target_month; j++)
+        result += monthTemplates[j].dayOfMonth;
+    printf("There have been %d from %d-01-01 to %d-%s-%d.\n", result, year, year, month, day);
     return 0;
 }

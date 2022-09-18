@@ -1,41 +1,33 @@
+/**
+ * @file 14.1.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Redo Review Question 5, but make the argument the spelled-out name of the month
+instead of the month number. (Don’t forget about strcmp() .) Test the function in a
+simple program.
+ * @version 0.1
+ * @date 2022-09-17
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "MonthDef.h"
 
-struct month
-{
-    char name[10];
-    char abbrev[4];
-    int days;
-    int monumb;
-};
 
-const struct month months[12] = {
-    {"January", "Jan", 31, 1},
-    {"February", "Feb", 28, 2},
-    {"March", "Mar", 31, 3},
-    {"April", "Apr", 30, 4},
-    {"May", "May", 31, 5},
-    {"June", "Jun", 30, 6},
-    {"July", "Jul", 31, 7},
-    {"August", "Aug", 31, 8},
-    {"September", "Sep", 30, 9},
-    {"October", "Oct", 31, 10},
-    {"November", "Nov", 30, 11},
-    {"December", "Dec", 31, 12}};
+int total_days(char *);
 
-int days(char *m);
 int main(void)
 {
     char input[20];
-    int daytotal;
-
     printf("Enter the name of a month: ");
     while (gets(input) != NULL && input[0] != '\0')
     {
-        daytotal = days(input);
-        if (daytotal > 0)
-            printf("There are %d days through %s.\n", daytotal, input);
+        int total = total_days(input);
+        if (total >= 0)
+            printf("There are %d days from January to %s.\n", total, input);
         else
             printf("%s is not valid input.\n", input);
         printf("Next month (empty line to quit):");
@@ -45,29 +37,21 @@ int main(void)
     return 0;
 }
 
-int days(char *m)
+int total_days(char *month_spell)
 {
-    int total = 0;
-    int mon_num = 0;
-    int i;
-    if (m[0] == '\0')
-        total = -1;
-    else
+    if (month_spell[0] == '\0')
+        return -1;
+    int total_days = 0;
+    month_spell[0] = toupper(month_spell[0]);
+    for (int i = 1; month_spell[i] != '\0'; i++)
+        month_spell[i] = tolower(month_spell[i]);
+    for (int i = 0; i < MONTHES; i++)
     {
-        m[0] = toupper(m[0]);
-        for (i = 1; m[i] != '\0'; i++)
-            m[i] = tolower(m[i]);
-        for (i = 0; i < 12; i++)
-            if (strcmp(m, months[i].name) == 0)
-            {
-                mon_num = months[i].monumb;
-                break;
-            }
-        if (mon_num == 0)
-            total = -1;
-        else
-            for (i = 0; i < mon_num; i++)
-                total += months[i].days;
+        total_days += monthTemplates[i].dayOfMonth;
+        if (strcmp(month_spell, monthTemplates[i].spell) == 0)
+        {
+            return total_days;
+        }
     }
-    return total;
+    return -1;
 }

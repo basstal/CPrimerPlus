@@ -1,94 +1,73 @@
+/**
+ * @file 15.2.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that reads two binary strings as command-line arguments and prints
+the results of applying the ~ operator to each number and the results of applying the
+& , | , and ^ operators to the pair. Show the results as binary strings. (If you don’t have a
+command-line environment available, have the program read the strings interactively.)
+ * @version 0.1
+ * @date 2022-09-18
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MASK 1
 
-int transform1(char pc[]);
-void print(int num1, int num2, int, int);
-char *transform2(int num, int);
+int transform(char[]);
+void print_all(char *, char *);
 
 int main(int argc, char *argv[])
 {
-    int num1, num2;
-    int strl1, strl2;
-
     if (argc < 3)
     {
-        fprintf(stderr, "参数个数错误");
-        exit(1);
+        fprintf(stderr, "Usage: %s binary_str1 binary_str2", argv[0]);
+        exit(EXIT_FAILURE);
     }
-    strl1 = strlen(argv[1]);
-    strl2 = strlen(argv[2]);
-
-    num1 = transform1(argv[1]);
-    num2 = transform1(argv[2]);
-    print(num1, num2, strl1, strl2);
+    print_all(argv[1], argv[2]);
 
     return 0;
 }
 
-int transform1(char pc[])
+int transform(char inStr[])
 {
-    int num;
-    int i = 0;
+    int i = 0, result = 0;
 
-    while (pc[i])
+    while (inStr[i])
     {
-        if (pc[i] == '0')
-            num <<= 1;
-        else
+        result |= inStr[i] == '0' ? 0 : 1;
+        if (inStr[i + 1])
         {
-            num |= MASK;
-            if (pc[i + 1])
-                num <<= 1;
+            result <<= 1;
         }
         i++;
     }
-    return num;
+    return result;
 }
 
-char *transform2(int num, int strl)
+char *to_binary_str(char *str, int num, int length)
 {
-    static char ch[40];
-    int i = strl;
-
-    ch[i] = '\0';
-    while (--i >= 0)
+    int i = 0;
+    str[length] = '\0';
+    while (length > 0)
     {
-        if (num & MASK == 1)
-            ch[i] = '1';
-        else
-            ch[i] = '0';
+        str[length - 1] = (num & 1) == 0 ? '0' : '1';
         num >>= 1;
+        --length;
     }
-
-    return ch;
+    return str;
 }
 
-void print(int num1, int num2, int strl1, int strl2)
+void print_all(char *num1, char *num2)
 {
-    char *ch;
-
-    printf("原始二进制字符串#1为:\n");
-    ch = transform2(num1, strl1);
-    printf("%s\n", ch);
-    printf("原始二进制字符串#2为:\n");
-    ch = transform2(num2, strl2);
-    printf("%s\n", ch);
-    printf("对二进制字符串#1使用~运算符后为:\n");
-    ch = transform2(~num1, strl1);
-    printf("%s\n", ch);
-    printf("对二进制字符串#2使用~运算符后为:\n");
-    ch = transform2(~num2, strl2);
-    printf("%s\n", ch);
-    printf("使用&运算符后结果为:\n");
-    ch = transform2(num1 & num2, strl1 > strl2 ? strl1 : strl2);
-    printf("%s\n", ch);
-    printf("使用|运算符后结果为:\n");
-    ch = transform2(num1 | num2, strl1 > strl2 ? strl1 : strl2);
-    printf("%s\n", ch);
-    printf("使用^运算符后结果为:\n");
-    ch = transform2(num1 ^ num2, strl1 > strl2 ? strl1 : strl2);
-    printf("%s\n", ch);
+    char tmp[40];
+    printf("~%s result to %s\n", num1, to_binary_str(tmp, ~transform(num1), (int)strlen(num1)));
+    printf("~%s result to %s\n", num2, to_binary_str(tmp, ~transform(num2), (int)strlen(num1)));
+    int maxlen = strlen(num1) > strlen(num2) ? strlen(num1) : strlen(num2);
+    printf("%s & %s result to %s\n", num1, num2, to_binary_str(tmp, transform(num1) & transform(num2), maxlen));
+    printf("%s | %s result to %s\n", num1, num2, to_binary_str(tmp, transform(num1) | transform(num2), maxlen));
+    printf("%s ^ %s result to %s\n", num1, num2, to_binary_str(tmp, transform(num1) ^ transform(num2), maxlen));
     printf("bye\n");
 }

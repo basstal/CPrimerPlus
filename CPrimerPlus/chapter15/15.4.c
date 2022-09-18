@@ -1,29 +1,34 @@
+/**
+ * @file 15.4.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a function that takes two int arguments: a value and a bit position. Have the
+function return 1 if that particular bit position is 1, and have it return 0 otherwise. Test
+the function in a program.
+ * @version 0.1
+ * @date 2022-09-18
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
-#define MASK 1
 
-int openorclose(int, int);
+int open_or_close(int, int);
 
 int main(void)
 {
     int num, pos;
 
-    printf("输入测试数值:");
+    printf("Please input a int number :");
     scanf("%d", &num);
-    printf("输入检验位置:");
+    printf("Please input a test bit position :");
     scanf("%d", &pos);
-    printf("该位的值为%s", openorclose(num, pos) ? "开" : "关");
+    printf("The bit position %d of %d is %d", num, pos, open_or_close(num, pos));
 
     return 0;
 }
 
-int openorclose(int num, int pos)
+int open_or_close(int num, int pos)
 {
-    int i = 0;
-
-    num >>= pos;
-
-    if (num & MASK == 1)
-        return 1;
-    else
-        return 0;
+    return (num & (1 << (pos - 1))) != 0;
 }

@@ -1,28 +1,40 @@
+/**
+ * @file 13.4.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that sequentially displays onscreen all the files listed in the command
+line. Use argc to control a loop.
+ * @version 0.1
+ * @date 2022-09-17
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(int argc, char *argv[])
 {
-    int byte;
-    FILE *source;
-    int filect;
-
     if (argc == 1)
     {
         printf("Usage:%s filename[s]\n", argv[0]);
         exit(EXIT_FAILURE);
     }
-    for (filect = 1; filect < argc; filect++)
+    for (int index = 1; index < argc; index++)
     {
-        if ((source = fopen(argv[filect], "r")) == NULL)
+        FILE *source;
+        if ((source = fopen(argv[index], "r")) == NULL)
         {
-            printf("Could not open file %s for input\n", argv[filect]);
+            printf("Can't open file %s for input\n", argv[index]);
             continue;
         }
+        char byte;
         while ((byte = getc(source)) != EOF)
             putchar(byte);
         if (fclose(source) != 0)
-            printf("Could not close file %s\n", argv[1]);
+        {
+            printf("Can't close file %s\n", argv[index]);
+        }
     }
     return 0;
 }

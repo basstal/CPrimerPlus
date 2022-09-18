@@ -1,27 +1,56 @@
+/**
+ * @file 14.5.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that fits the following recipe:
+ * a. Externally define a name structure template with two members: a string to hold the
+first name and a string to hold the second name.
+b. Externally define a student structure template with three members: a name
+structure, a grade array to hold three floating-point scores, and a variable to hold
+the average of those three scores.
+c. Have the main() function declare an array of CSIZE (with CSIZE = 4 ) student
+structures and initialize the name portions to names of your choice. Use functions
+to perform the tasks described in parts d., e., f., and g.
+d. Interactively acquire scores for each student by prompting the user with a student
+name and a request for scores. Place the scores in the grade array portion of the
+appropriate structure. The required looping can be done in main() or in the
+function, as you prefer.
+e. Calculate the average score value for each structure and assign it to the proper
+member.
+f. Print the information in each structure.
+g. Print the class average for each of the numeric structure members.
+ * @version 0.1
+ * @date 2022-09-17
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <stdio.h>
 #include <string.h>
 #define LEN 14
 #define CSIZE 4
 #define SCORES 3
-struct name
+
+typedef struct
 {
     char first[LEN];
     char last[LEN];
-};
-struct student
+} name;
+typedef struct
 {
-    struct name person;
+    name person;
     float scores[SCORES];
     float mean;
-};
-void get_scores(struct student ar[], int lim);
-void find_means(struct student ar[], int lim);
-void show_class(const struct student ar[], int lim);
-void show_ave(const struct student ar[], int lim);
+} student;
+
+void get_scores(student[], int);
+void find_means(student[], int);
+void show_class(const student[], int);
+void show_ave(const student[], int);
 
 int main(void)
 {
-    struct student class[CSIZE] = {
+    student class[CSIZE] = {
         {"Flip", "Snide"},
         {"Clare", "Voyans"},
         {"Bingo", "Higgs"},
@@ -34,64 +63,54 @@ int main(void)
     return 0;
 }
 
-void get_scores(struct student ar[], int lim)
+void get_scores(student students[], int length)
 {
-    int i, j;
-    for (i = 0; i < lim; i++)
+    for (int i = 0; i < length; i++)
     {
-        printf("Please enter %d scores for %s %s:\n", SCORES, ar[i].person.first, ar[i].person.last);
-        for (j = 0; j < SCORES; j++)
+        printf("Please enter %d scores for %s %s :", SCORES, students[i].person.first, students[i].person.last);
+        while (scanf("%f %f %f", &students[i].scores[0], &students[i].scores[1], &students[i].scores[2]) != 3)
         {
-            while (scanf("%f", &ar[i].scores[j]) != 1)
-            {
-                scanf("%*s");
-                puts("Please use numeric input.");
-            }
+            while (getchar() != '\n')
+                ;
+            printf("Input scores are not valid.\n");
+            printf("Please enter %d scores for %s %s :", SCORES, students[i].person.first, students[i].person.last);
         }
     }
 }
 
-void find_means(struct student ar[], int lim)
+void find_means(student students[], int length)
 {
-    int i, j;
-    float sum;
-
-    for (i = 0; i < lim; i++)
+    for (int i = 0; i < length; ++i)
     {
-        for (sum = 0, j = 0; j < SCORES; j++)
-            sum += ar[i].scores[j];
-        ar[i].mean = sum / SCORES;
+        students[i].mean = (students[i].scores[0] +
+                            students[i].scores[1] +
+                            students[i].scores[2]) /
+                           3.0f;
     }
 }
 
-void show_class(const struct student ar[], int lim)
+void show_class(const student students[], int length)
 {
-    int i, j;
-    char wholename[2 * LEN];
-
-    for (i = 0; i < lim; i++)
+    printf("|name|score1|score2|score3|avg_score|\n");
+    printf("|---|---|---|---|---|\n");
+    for (int i = 0; i < length; i++)
     {
-        strcpy(wholename, ar[i].person.first);
-        strcat(wholename, " ");
-        strcat(wholename, ar[i].person.last);
-        printf("%27s:", wholename);
-        for (j = 0; j < SCORES; j++)
-            printf("%6.1f ", ar[i].scores[j]);
-        printf(" Average = %5.2f\n", ar[i].mean);
+        printf("|%s %s|", students[i].person.first, students[i].person.last);
+        printf("%lf|%lf|%lf|%lf|\n", students[i].scores[0], students[i].scores[1], students[i].scores[2], students[i].mean);
     }
 }
 
-void show_ave(const struct student ar[], int lim)
+void show_ave(const student students[], int length)
 {
-    int i, j;
-    float total;
-
-    printf("\n%27s: ", "QUIZ AVERAGES");
-    for (j = 0; j < SCORES; j++)
+    printf("|avg_score1|avg_score2|avg_score3|\n");
+    printf("|---|---|---|\n");
+    printf("|");
+    for (int i = 0; i < SCORES; i++)
     {
-        for (total = 0, i = 0; i < lim; i++)
-            total += ar[i].scores[j];
-        printf("%6.2f ", total / lim);
+        float total = 0;
+        for (int stu = 0; stu < length; stu++)
+            total += students[stu].scores[i];
+        printf("%6.2f|", total / length);
     }
     putchar('\n');
 }

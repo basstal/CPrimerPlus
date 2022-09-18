@@ -14,10 +14,9 @@
 int main(void)
 {
     char current_char;
-    int words, letters_in_this_word;
-    float avg_number_of_letters;
+    int words, letters_in_this_word, total_number_of_letters;
 
-    words = avg_number_of_letters = letters_in_this_word = 0;
+    words = total_number_of_letters = letters_in_this_word = 0;
     printf("Please input some characters (EOF to quit):\n");
     while ((current_char = getchar()) != EOF)
     {
@@ -29,7 +28,7 @@ int main(void)
         {
             if (letters_in_this_word > 0)
             {
-                avg_number_of_letters = avg_number_of_letters == 0 ? letters_in_this_word : (avg_number_of_letters + letters_in_this_word) / 2;
+                total_number_of_letters += letters_in_this_word;
                 letters_in_this_word = 0;
                 ++words;
             }
@@ -39,6 +38,6 @@ int main(void)
             letters_in_this_word++;
         }
     }
-    printf("There are %d words, average number of letters per word is %.2f.\n", words, avg_number_of_letters);
+    printf("There are %d words, average number of letters per word is %.2f.\n", words, total_number_of_letters / words);
     return 0;
 }

@@ -1,50 +1,71 @@
-#include "BiTree.h"
+/**
+ * @file 17.7.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a program that opens and reads a text file and records how many times each word
+occurs in the file. Use a binary search tree modified to store both a word and the number
+of times it occurs. After the program has read the file, it should offer a menu with three
+choices. The first is to list all the words along with the number of occurrences. The
+second is to let you enter a word, with the program reporting how many times the word
+occurred in the file. The third choice is to quit.
+ * @version 0.1
+ * @date 2022-09-18
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+#define EX17_7
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "tree.h"
 typedef struct
 {
-    BiNode *parent;
-    BiNode *child;
+    Trnode *parent;
+    Trnode *child;
 } Pair;
 
-static void DeleteAllNodes(BiNode *root);
-static void Delete(BiNode **p);
-static void InOrder_1(const BiNode *root, void (*visit)(Item));
-static void InOrder_2(const BiNode *root, void (*visit)(Item));
-static void InOrder_3(const BiNode *root, void (*visit)(Item));
-static Pair SeekNode(const Item *i, const BiTree *tree);
-static Bool ToRight(const Item *i1, const Item *i2);
-static Bool ToLeft(const Item *i1, const Item *i2);
-static void Add(BiNode *new_node, BiNode *root);
-static BiNode *MakeNode(const Item *i);
+static void DeleteAllNodes(Trnode *root);
+static void Delete(Trnode **p);
+static void InOrder_1(const Trnode *root, void (*visit)(Item));
+static void InOrder_2(const Trnode *root, void (*visit)(Item));
+static void InOrder_3(const Trnode *root, void (*visit)(Item));
+static Pair SeekNode(const Item *i, const Tree *tree);
+static bool ToRight(const Item *i1, const Item *i2);
+static bool ToLeft(const Item *i1, const Item *i2);
+static void Add(Trnode *new_node, Trnode *root);
+static Trnode *MakeNode(const Item *i);
 
-void InitBiTree(BiTree *tree)
+void InitBiTree(Tree *tree)
 {
     tree->root = NULL;
     tree->size = 0;
 }
 
-Bool BiTreeEmpty(const BiTree *tree)
+bool BiTreeEmpty(const Tree *tree)
 {
-    return tree->size == 0 ? TRUE : FALSE;
+    return tree->size == 0 ? true : false;
 }
 
-int BiTreeSize(const BiTree *tree)
+int BiTreeSize(const Tree *tree)
 {
     return tree->size;
 }
 
-Bool AddNode(const Item *i, BiTree *tree)
+bool AddNode(const Item *i, Tree *tree)
 {
-    BiNode *new_node;
+    Trnode *new_node;
 
     /*if(SeekItem(i,tree).child!=NULL){
         fprintf(stderr,"Attempted to add duplicate item\n");
-        return FALSE;
+        return false;
     }*/
     new_node = MakeNode(i);
     if (new_node == NULL)
     {
         fprintf(stderr, "Couldn't create node\n");
-        return FALSE;
+        return false;
     }
 
     tree->size++;
@@ -52,23 +73,23 @@ Bool AddNode(const Item *i, BiTree *tree)
         tree->root = new_node;
     else
         Add(new_node, tree->root);
-    return TRUE;
+    return true;
 }
 
-Item *InBiTree(const Item *i, const BiTree *tree)
+Item *InBiTree(const Item *i, const Tree *tree)
 {
     if (SeekNode(i, tree).child)
-        return &SeekNode(i, tree).child->i;
+        return &SeekNode(i, tree).child->item;
     else
         return NULL;
 }
 
-Bool DeleteNode(const Item *i, BiTree *tree)
+bool DeleteNode(const Item *i, Tree *tree)
 {
     Pair look;
     look = SeekNode(i, tree);
     if (look.child == NULL)
-        return FALSE;
+        return false;
 
     if (look.parent == NULL)
         Delete(&tree->root);
@@ -77,16 +98,16 @@ Bool DeleteNode(const Item *i, BiTree *tree)
     else
         Delete(&look.parent->right);
     tree->size--;
-    return TRUE;
+    return true;
 }
 
-void TraverBiTree(const BiTree *tree, void (*visit)(Item))
+void TraverBiTree(const Tree *tree, void (*visit)(Item))
 {
     if (tree->size != 0)
         InOrder_1(tree->root, visit);
 }
 
-void DeleteBiTree(BiTree *tree)
+void DeleteBiTree(Tree *tree)
 {
     if (tree->size != 0)
         DeleteAllNodes(tree->root);
@@ -95,32 +116,32 @@ void DeleteBiTree(BiTree *tree)
 }
 
 /*****************************************
- *        内部函数
+ *        Internal functions
  *****************************************/
-static BiNode *MakeNode(const Item *i)
+static Trnode *MakeNode(const Item *item)
 {
-    BiNode *new_node;
+    Trnode *new_node;
 
-    new_node = malloc(sizeof(BiNode));
+    new_node = malloc(sizeof(Trnode));
     if (new_node != NULL)
     {
-        new_node->i = *i;
+        new_node->item = *item;
         new_node->left = NULL;
         new_node->right = NULL;
     }
     return new_node;
 }
 
-static void Add(BiNode *new_node, BiNode *root)
+static void Add(Trnode *new_node, Trnode *root)
 {
-    if (ToLeft(&new_node->i, &root->i))
+    if (ToLeft(&new_node->item, &root->item))
     {
         if (root->left == NULL)
             root->left = new_node;
         else
             Add(new_node, root->left);
     }
-    else if (ToRight(&new_node->i, &root->i))
+    else if (ToRight(&new_node->item, &root->item))
     {
         if (root->right == NULL)
             root->right = new_node;
@@ -128,24 +149,24 @@ static void Add(BiNode *new_node, BiNode *root)
             Add(new_node, root->right);
     }
     else
-        root->i.count++;
+        root->item.count++;
 }
 
-static Bool ToLeft(const Item *i1, const Item *i2)
+static bool ToLeft(const Item *i1, const Item *i2)
 {
     if (strcmp(i1->string, i2->string) < 0)
-        return TRUE;
+        return true;
     else
-        return FALSE;
+        return false;
 }
-static Bool ToRight(const Item *i1, const Item *i2)
+static bool ToRight(const Item *i1, const Item *i2)
 {
     if (strcmp(i1->string, i2->string) > 0)
-        return TRUE;
+        return true;
     else
-        return FALSE;
+        return false;
 }
-static Pair SeekNode(const Item *i, const BiTree *tree)
+static Pair SeekNode(const Item *i, const Tree *tree)
 {
     Pair look;
     look.parent = NULL;
@@ -155,12 +176,12 @@ static Pair SeekNode(const Item *i, const BiTree *tree)
         return look;
     while (look.child != NULL)
     {
-        if (ToLeft(i, &(look.child->i)))
+        if (ToLeft(i, &(look.child->item)))
         {
             look.parent = look.child;
             look.child = look.child->left;
         }
-        else if (ToRight(i, &(look.child->i)))
+        else if (ToRight(i, &(look.child->item)))
         {
             look.parent = look.child;
             look.child = look.child->right;
@@ -171,11 +192,11 @@ static Pair SeekNode(const Item *i, const BiTree *tree)
     return look;
 }
 
-static void Delete(BiNode **p)
+static void Delete(Trnode **p)
 {
-    BiNode *temp;
+    Trnode *temp;
 
-    puts((*p)->i.string);
+    puts((*p)->item.string);
     if ((*p)->left == NULL)
     {
         temp = *p;
@@ -199,37 +220,37 @@ static void Delete(BiNode **p)
     }
 }
 
-static void InOrder_1(const BiNode *root, void (*visit)(Item))
+static void InOrder_1(const Trnode *root, void (*visit)(Item))
 {
     if (root != NULL)
     {
-        visit(root->i);
+        visit(root->item);
         InOrder_1(root->left, visit);
         InOrder_1(root->right, visit);
     }
 }
-static void InOrder_2(const BiNode *root, void (*visit)(Item))
+static void InOrder_2(const Trnode *root, void (*visit)(Item))
 {
     if (root != NULL)
     {
         InOrder_2(root->left, visit);
-        visit(root->i);
+        visit(root->item);
         InOrder_2(root->right, visit);
     }
 }
-static void InOrder_3(const BiNode *root, void (*visit)(Item))
+static void InOrder_3(const Trnode *root, void (*visit)(Item))
 {
     if (root != NULL)
     {
         InOrder_3(root->left, visit);
         InOrder_3(root->right, visit);
-        visit(root->i);
+        visit(root->item);
     }
 }
 
-static void DeleteAllNodes(BiNode *root)
+static void DeleteAllNodes(Trnode *root)
 {
-    BiNode *pright;
+    Trnode *pright;
     if (root != NULL)
     {
         pright = root->right;
@@ -239,39 +260,31 @@ static void DeleteAllNodes(BiNode *root)
     }
 }
 
-void ReadWords(BiTree *tree)
+void ReadWords(Tree *tree)
 {
     FILE *fp;
     char name[20];
     char word[WORDSIZE];
     Item temp;
     int i = 0, j;
-    char ch;
+    int ch;
 
-    printf("请输入文件名(带后缀):");
+    printf("Please enter the filename to read :");
     scanf("%s", name);
-#ifdef TEST
-    printf("\n输入文件名成功\n");
-#endif
-    if ((fp = fopen(name, "r+")) == NULL)
+    if ((fp = fopen(name, "r+b")) == NULL)
     {
-        fprintf(stderr, "打开文件%s错误!\n", name);
+        fprintf(stderr, "Can't open file %s.\n", name);
         exit(1);
     }
-#ifdef TEST
-    printf("\n打开文件成功\n");
-#endif
     while ((ch = getc(fp)) != EOF)
     {
-#ifdef TEST
-        printf("\n能读取文件中的字符\n");
-#endif
+        if (ch < 1 || ch > 255)
+        {
+            continue;
+        }
         if (isalpha(ch))
         {
             word[i++] = ch;
-#ifdef TEST
-            printf("\n录入字符\n");
-#endif
         }
         else if (word[0] != '\0')
         {
@@ -279,9 +292,6 @@ void ReadWords(BiTree *tree)
             for (j = 0; j <= i; j++)
                 temp.string[j] = word[j];
             temp.count = 1;
-#ifdef TEST
-            printf("\n录入字符为%s,下一步将结点插入到二叉树中\n", temp.string);
-#endif
             AddNode(&temp, tree);
             word[0] = '\0';
             i = 0;
@@ -292,22 +302,22 @@ void ReadWords(BiTree *tree)
 
 void print(Item i)
 {
-    printf("单词%s出现次数为%d\n", i.string, i.count);
+    printf("\"%s\" occured %d times.\n", i.string, i.count);
 }
 
 void menu(void)
 {
     printf("***********************************************\n");
-    printf("*       选项1：列出所有单词及出现次数         *\n");
-    printf("*       选项2：输入并查找指定单词             *\n");
-    printf("*       选项3：退出程序                       *\n");
+    printf("1) list all the words along with the number of occurrences.\n");
+    printf("2) reporting how many times the input word occurred in the file.\n");
+    printf("3) quit.\n");
     printf("***********************************************\n");
-    printf("        请输入数字1-3：");
+    printf("Please input a number :");
 }
 
 int main(void)
 {
-    BiTree tree;
+    Tree tree;
     Item *temp;
     char word[20];
     int i, s;
@@ -318,29 +328,31 @@ int main(void)
     while (1)
     {
         scanf("%d", &s);
-        CLEAN();
+        while (getchar() != '\n')
+            ;
         switch (s)
         {
         case 1:
             TraverBiTree(&tree, print);
             break;
         case 2:
-            printf("请输入查找的单词:");
+            printf("Please enter the word to search :");
             scanf("%s", word);
-            CLEAN();
+            while (getchar() != '\n')
+                ;
             temp = malloc(sizeof(Item));
             for (i = 0; i <= strlen(word); i++)
                 temp->string[i] = word[i];
             temp = InBiTree(temp, &tree);
             if (temp)
-                printf("单词%s出现次数为%d\n", temp->string, temp->count);
+                print(*temp);
             else
-                printf("单词%s未出现\n", word);
+                printf("\"%s\" not found.\n", word);
             break;
         case 3:
             return 0;
         default:
-            printf("输入有误,请重新输入选项:");
+            printf("Input is not valid, please try again.\n");
             continue;
         }
         menu();

@@ -1,27 +1,42 @@
+/**
+ * @file 13.1.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Modify Listing 13.1 so that it solicits the user to enter the filename and reads the user’s
+response instead of using command-line arguments.
+ * @version 0.1
+ * @date 2022-09-17
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+/* count.c -- using standard I/O */
 #include <stdio.h>
-#include <stdlib.h>
-int main(void)
+#include <stdlib.h> // exit() prototype
+int main(int argc, char *argv[])
 {
-    char file_name[40];
-    char ch;
-    FILE *fp;
-    long count = 0;
-
-    printf("请输入文件名:\n");
-    gets(file_name);
-    if ((fp = fopen(file_name, "r+")) == NULL)
+    int ch;   // place to store each character as read
+    FILE *fp; // "file pointer"
+    unsigned long count = 0;
+    char filename[255];
+    printf("Please enter the filename:");
+    if (scanf("%s", filename) != 1)
     {
-        printf("Can't open %s\n", file_name);
-        exit(1);
+        printf("entered filename is not valid.");
+        exit(EXIT_FAILURE);
+    }
+
+    if ((fp = fopen(filename, "r")) == NULL)
+    {
+        printf("Can't open %s\n", filename);
+        exit(EXIT_FAILURE);
     }
     while ((ch = getc(fp)) != EOF)
     {
-        putc(ch, stdout);
+        putc(ch, stdout); // same as putchar(ch);
         count++;
     }
-    printf("\n");
     fclose(fp);
-    printf("File %s has %ld characters\n", file_name, count);
-    getchar();
+    printf("File %s has %lu characters\n", filename, count);
     return 0;
 }

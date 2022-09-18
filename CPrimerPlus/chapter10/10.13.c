@@ -61,11 +61,11 @@ void read_data_from_input(double (*source)[COLS], int length)
 
 double average_of_set_values(const double (*source)[COLS], int set_index)
 {
-    double average = source[set_index][0];
+    double total = source[set_index][0];
     for (int i = 1; i < COLS; i++)
-        average = (average + *(source[set_index] + i)) / 2;
-    printf("The average of set #%d is %lf\n", set_index, average);
-    return average;
+        total += *(source[set_index] + i);
+    printf("The average of set #%d is %lf\n", set_index, total / COLS);
+    return total / COLS;
 }
 
 double average_of_all_values(const double (*source)[COLS], int length)

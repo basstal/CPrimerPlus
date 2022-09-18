@@ -1,16 +1,29 @@
+/**
+ * @file 12.4.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write and test in a loop a function that returns the number of times it has been called.
+ * @version 0.1
+ * @date 2022-09-13
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include <stdio.h>
-int test(void);
-static int count = 0;
-int main(void)
+int return_called_times();
+int main()
 {
-    int i, num;
-    for (i = 0; i < 10; i++)
-        num = test();
-    printf("函数调用次数为:%d\n", num);
+    int loop = rand(time(0));
+    int called_times = 0;
+    for (int i = 0; i < loop; i++)
+        called_times = return_called_times();
+    printf("called_times result to %d, loop result to %d\n", called_times, loop);
     return 0;
 }
-int test(void)
+
+int return_called_times()
 {
-    count++;
-    return count;
+    static int called = 0;
+    return ++called;
 }

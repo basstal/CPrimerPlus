@@ -1,57 +1,63 @@
-#include "normal.h"
+/**
+ * @file 16.5.c
+ * @author your name (you@domain.com)
+ * @brief
+ * Write a function that takes as arguments the name of an array of type int elements, the
+size of an array, and a value representing the number of picks. The function then should
+select the indicated number of items at random from the array and prints them. No
+array element is to be picked more than once. (This simulates picking lottery numbers or
+jury members.) Also, if your implementation has time() (discussed in Chapter 12 ) or a
+similar function available, use its output with srand() to initialize the rand() randomnumber
+generator. Write a simple program that tests the function.
+ * @version 0.1
+ * @date 2022-09-18
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
+#include "Common.h"
 #include <time.h>
 
 #define SIZE 10
 
 void pick(const int[], int, int);
-void Delete(int[], int, int);
 
 int main(void)
 {
 
-    int source[SIZE];
-    int i;
-    int choice;
+    int source[SIZE], picks;
 
-    for (i = 0; i < SIZE; i++)
+    for (int i = 0; i < SIZE; i++)
         source[i] = i;
-    printf("请选择指定数量元素<%d:", SIZE);
-    while (scanf("%d", &choice) != 1)
+    printf("Please input the number of picks [1, %d] :", SIZE);
+    while (scanf("%d", &picks) == 1 && picks >= 1 && picks <= SIZE)
     {
-        printf("请重新输入数字:\n");
         while (getchar() != '\n')
             ;
+        pick(source, SIZE, picks);
+        printf("Please input the number of picks [1, %d] :", SIZE);
     }
-    pick(source, SIZE, choice);
-
+    puts("bye!");
     return 0;
 }
 
-void Delete(int ar[], int size, int search)
+void pick(const int source[], int size, int picks)
 {
-    int i;
-    for (i = search; i < size - 1; i++)
-        ar[i] = ar[i + 1];
-    ar[size - 1] = 0;
-}
-
-void pick(const int ar[], int size, int n)
-{
-    int i = 0;
-    int target[SIZE];
-    int search;
-
-    if (n > SIZE)
+    time_t t;
+    srand(time(&t));
+    int picked[SIZE], pick = 1;
+    for (int i = 0; i < SIZE; ++i)
+        picked[i] = -1;
+    while (pick <= picks)
     {
-        fprintf(stderr, "调用函数时数组大小错误\n");
-        exit(1);
-    }
-    memmove(target, ar, SIZE * sizeof(int));
-    while (i < n)
-    {
-        search = rand() % (size - i);
-        printf("随机选择的元素为%d\n", target[search]);
-        Delete(target, size - i, search);
-        i++;
+        int potential_pick = rand() % size;
+        if (picked[potential_pick] != -1)
+        {
+            continue;
+        }
+        picked[potential_pick] = potential_pick;
+        printf("The %d pick is %d.\n", pick, source[potential_pick]);
+        ++pick;
     }
 }
